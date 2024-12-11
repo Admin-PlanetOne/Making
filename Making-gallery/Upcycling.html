@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Full-Screen Responsive Image Slider</title>
+  
+<style>
+ul#fwall {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  list-style-type: none;
+}
+ul#fwall li {
+  height: 195px;
+  flex-grow: 1;
+  margin: 0;
+}
+ul#fwall li:last-child {
+  flex-grow: 10;
+}
+ul#fwall img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+</style>
+
+<script>
+let fwitems = null;
+function flickrWall() {
+  if (fwitems) {
+    let fwall = document.getElementById('fwall');
+    fwitems.forEach(function(item) {
+      let elem = document.createElement('li');
+      let image = document.createElement('img');
+      image.setAttribute('src', item.media.m.replace('_m.','.'));
+      image.setAttribute('alt', ' [Image: ' + item.title + '] ');
+      image.setAttribute('loading', 'lazy');
+      elem.appendChild(image);
+      fwall.appendChild(elem);
+    });
+    fwall.appendChild(document.createElement('li'));
+  }
+}
+function jsonFlickrFeed(photos) {
+  fwitems = photos.items;
+  window.addEventListener('DOMContentLoaded', flickrWall, false);
+}
+</script>
+<script defer="defer" src="https://www.flickr.com/services/feeds/photoset.gne?nsid=201784026@N05&set=72177720322501575&lang=en-us&format=json&nojsoncallback=0"></script>
+
+<ul id="fwall">
+</ul>
+
+</html>
